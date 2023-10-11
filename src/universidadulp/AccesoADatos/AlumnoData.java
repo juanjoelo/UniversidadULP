@@ -39,13 +39,14 @@ public class AlumnoData {
            ps.executeUpdate();
            ResultSet rs = ps.getGeneratedKeys();
            if (rs.next()) {
-               al.setIdAlumno(rs.getInt("idAlumno"));
+               //al.setIdAlumno(rs.getInt("idAlumno"));
+               
                JOptionPane.showMessageDialog(null, "Alumno añadido con exito.");
           }
         ps.close();
 
         }catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno"+ex.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno: "+ex.getMessage());
        }
 
     }
@@ -67,7 +68,8 @@ public class AlumnoData {
     alumno.setNombre(rs.getString("nombre"));
     alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
     alumno.setEstado(true);
-
+       // System.out.println(alumno);
+        JOptionPane.showMessageDialog(null, alumno);
     } else {
     JOptionPane.showMessageDialog(null, "No existe el alumno");
    ps.close();
@@ -96,7 +98,7 @@ public class AlumnoData {
             alumno.setNombre(rs.getString("nombre"));
             alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
             alumno.setEstado(true);
-
+            JOptionPane.showMessageDialog(null, alumno);
 
         } else {
         JOptionPane.showMessageDialog(null, "No existe el alumno");
@@ -127,9 +129,11 @@ public class AlumnoData {
                 alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
                 alumno.setEstado(rs.getBoolean("estado"));
                 alumnos.add(alumno);
+                
             }
+            JOptionPane.showMessageDialog(null, alumnos);
             ps.close();
-
+            
 
         } catch (SQLException ex) {
         JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno "+ex.getMessage());

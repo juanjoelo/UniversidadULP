@@ -10,10 +10,10 @@ package universidadulp.Entidades;
  * @author Bruno
  */
 public class Materia {
-  private int idMateria;
+   private int idMateria;
    private String nombre;
    private int anioMateria;
-  private  boolean activo;
+   private  boolean activo;
 
     public Materia() {
     }
