@@ -12,12 +12,12 @@ import java.time.LocalDate;
  * @author juan_
  */
 public class Alumno {
-    protected int idAlumno;
-    protected int dni;
-    protected String apellido;
-    protected String nombre;
-    protected LocalDate fechaNacimiento;
-    protected boolean estado;
+    private int idAlumno;
+    private int dni;
+    private String apellido;
+    private String nombre;
+    private LocalDate fechaNacimiento;
+    private boolean estado;
 
     public Alumno() {
     }

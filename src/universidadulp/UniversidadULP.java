@@ -5,6 +5,9 @@
  */
 package universidadulp;
 
+import java.sql.Connection;
+import universidadulp.AccesoADatos.Conexion;
+
 /**
  *
  * @author juan_
@@ -16,6 +19,8 @@ public class UniversidadULP {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        Connection con =Conexion.getConnection();
     }
 
 }
