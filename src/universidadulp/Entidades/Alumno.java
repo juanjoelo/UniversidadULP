@@ -21,6 +21,14 @@ public class Alumno {
 
     public Alumno() {
     }
+//Se agregó el constructor sin el id.
+    public Alumno(int dni, String apellido, String nombre, LocalDate fechaNacimiento, boolean estado) {
+        this.dni = dni;
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.fechaNacimiento = fechaNacimiento;
+        this.estado = estado;
+    }
     
     
 
