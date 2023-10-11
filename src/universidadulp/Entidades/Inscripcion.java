@@ -10,10 +10,10 @@ package universidadulp.Entidades;
  * @author Bruno
  */
 public class Inscripcion {
-    private int idInscripcion;
-    Alumno alumno;
-    Materia materia;
-    double nota;
+  private int idInscripcion;
+  private  Alumno alumno;
+  private Materia materia;
+  private  double nota;
 
     public Inscripcion() {
     }
