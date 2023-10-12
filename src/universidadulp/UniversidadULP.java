@@ -26,14 +26,14 @@ public class UniversidadULP {
         
         Connection con =Conexion.getConnection();
         
-        Alumno alumno1 = new Alumno(657567, "Alfonsin", "Raul", LocalDate.of(1930, Month.MARCH, 14), true);
+        //Alumno alumno1 = new Alumno(657567, "Alfonsin", "Raul", LocalDate.of(1930, Month.MARCH, 14), true);
         AlumnoData ad = new AlumnoData();
-        ad.guardarAlumno(alumno1);
+        //ad.guardarAlumno(alumno1);
        // ad.buscarAlumno(15);
        // ad.buscarAlumnoPorDni(123123);
         //ad.listarAlumnos();
-        //ad.modificarAlumno(alumno1);
-        //ad.eliminarAlumno(15);
+        //ad.modificarAlumno(new Alumno(18,657567, "Araujo", "Raul", LocalDate.of(1930, Month.MARCH, 14), true));
+        ad.eliminarAlumno(18);
         
     }
     
