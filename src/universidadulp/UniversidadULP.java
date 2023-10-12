@@ -28,16 +28,16 @@ public class UniversidadULP {
     public static void main(String[] args) {
         // TODO code application logic here
         
-        Connection con =Conexion.getConnection();
+//        Connection con =Conexion.getConnection();
         InscripcionData inscData = new InscripcionData();
-        AlumnoData alumnoData = new AlumnoData();
-        Alumno al = new Alumno(3255293,"Jeresssssz","Joan",LocalDate.of(2001, Month.MARCH, 5),true);
-        alumnoData.guardarAlumno(al);
-        MateriaData matData = new MateriaData();
-        Materia mat = new Materia("Historiaaaaa",2,true);
-        matData.guardarMateria(mat);
-        Inscripcion insc = new Inscripcion(al,mat,0);
-        inscData.guardarInscripcion(insc);
+//        AlumnoData alumnoData = new AlumnoData();
+//        Alumno al = new Alumno(3255293,"Jeresssssz","Joan",LocalDate.of(2001, Month.MARCH, 5),true);
+//        alumnoData.guardarAlumno(al);
+//        MateriaData matData = new MateriaData();
+//        Materia mat = new Materia("Historiaaaaa",2,true);
+//        matData.guardarMateria(mat);
+//        Inscripcion insc = new Inscripcion(al,mat,0);
+//        inscData.guardarInscripcion(insc);
         
         //Alumno alumno1 = new Alumno(657567, "Alfonsin", "Raul", LocalDate.of(1930, Month.MARCH, 14), true);
         //AlumnoData ad = new AlumnoData();
@@ -47,5 +47,7 @@ public class UniversidadULP {
         //ad.listarAlumnos();
         //ad.modificarAlumno(new Alumno(18,657567, "Araujo", "Raul", LocalDate.of(1930, Month.MARCH, 14), true));
         //ad.eliminarAlumno(18);  
+//        inscData.borrarInscripcionMateriaAlumno(24, 5);
+        inscData.actualizarNota(1, 1, 10);
     } 
 }

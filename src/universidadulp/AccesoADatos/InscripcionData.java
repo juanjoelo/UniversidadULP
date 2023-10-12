@@ -163,13 +163,60 @@ public class InscripcionData {
     }
     
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria){
-        
+        try {
+            String sql = "DELETE FROM inscripcion WHERE idAlumno = ? AND idMateria=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ps.setInt(2, idMateria);
+            int fila=ps.executeUpdate();
+            if(fila == 1 ){
+                JOptionPane.showMessageDialog(null, "Se borró al alumno de la materia.");
+            }
+            ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla inscripción");
+        }
     }
     
     public void actualizarNota(int idAlumno, int idMateria, double nota){
+        try {
+            String sql = "UPDATE inscripcion SET nota=? WHERE idAlumno= ? AND idMateria=?";
+            PreparedStatement ps = null;
+            try {
+                ps = con.prepareStatement(sql);
+                ps.setDouble(1, nota);
+                ps.setInt(2, idAlumno );
+                ps.setInt(3, idMateria);
+                int exito = ps.executeUpdate();
+                if (exito == 1 ) {
+                    JOptionPane.showMessageDialog(null, "Nota actualizdad satisfactoriamente");
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al acceder a la tabla inscripción.");
+                }
+            } catch (Exception e) {
+            }
+            
+        } catch (Exception e) {
+            
+            
+        }
         
     }
     public List<Alumno> obtenerAlumnosXMateria(int idMateria){
-        return null;
+        List<Alumno>alumnos = new ArrayList<>();
+        try {
+            String sql = "SELECT idAlumno FROM inscripcion WHERE idMateria=? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {                
+               
+             alumnos.add(aluData.buscarAlumno(rs.getInt("idAlumno")));
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Materia "+ex.getMessage());
+        }
+        return alumnos;
     }
 }
