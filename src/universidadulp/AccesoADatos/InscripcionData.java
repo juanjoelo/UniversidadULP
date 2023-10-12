@@ -24,6 +24,7 @@ import universidadulp.Entidades.Materia;
 public class InscripcionData {
     private Connection con;
     private AlumnoData aluData;
+    private MateriaData mateData;
 
     public InscripcionData() {
     }
@@ -75,14 +76,86 @@ public class InscripcionData {
         
     }
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id){
+        try {
+            String sql = "SELECT * FROM inscripcion WHERE idAlumno=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            List<Inscripcion> inscriptos = new ArrayList<>();
+            
+            while (rs.next()) {
+                Inscripcion insc = new Inscripcion();
+
+                insc.getAlumno().setIdAlumno((rs.getInt("idAlumno")));
+                insc.setNota(rs.getInt("nota"));
+                insc.getMateria().setIdMateria(rs.getInt("idMateria"));
+                inscriptos.add(insc);
+                
+            }
+            ps.close();
+            return inscriptos;
+
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno "+ex.getMessage());
+        }
         return null;
     }
     
     public List<Materia> obtenerMateriasCursadas(int id){
+        try{
+            String sql = "SELECT * FROM inscripcion INNER JOIN "
+                    + "materia WHERE idAlumno=? AND "
+                    + "inscripcion.idMateria=materia.idMateria";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            List<Materia> materias = new ArrayList<>();
+            
+            while (rs.next()) {
+                Materia mat = new Materia();
+
+                mat.setIdMateria((rs.getInt("idMateria")));
+                mat.setNombre(rs.getString("nombre"));
+                //TODO: Revisar si coinciden estos valores con la BD.//
+                mat.setAnioMateria(rs.getInt("anio"));
+                materias.add(mat);
+                
+            }
+            ps.close();
+            return materias;
+
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno "+ex.getMessage());
+        }
         return null;
     }
     
     public List<Materia> obtenerMateriasNOCursadas(int id){
+         try{
+            String sql = "SELECT * FROM inscripcion INNER JOIN "
+                    + "materia WHERE idAlumno=? AND "
+                    + "inscripcion.idMateria!=materia.idMateria";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            List<Materia> materias = new ArrayList<>();
+            
+            while (rs.next()) {
+                Materia mat = new Materia();
+
+                mat.setIdMateria((rs.getInt("idMateria")));
+                mat.setNombre(rs.getString("nombre"));
+                //TODO: Revisar si coinciden estos valores con la BD.//
+                mat.setAnioMateria(rs.getInt("anio"));
+                materias.add(mat);
+                
+            }
+            ps.close();
+            return materias;
+
+        } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno "+ex.getMessage());
+        }
         return null;
     }
     
