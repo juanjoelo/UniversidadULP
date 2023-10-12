@@ -27,6 +27,7 @@ public class InscripcionData {
     private MateriaData mateData;
 
     public InscripcionData() {
+        con = Conexion.getConnection(); 
     }
     
     public void guardarInscripcion(Inscripcion insc){
@@ -48,6 +49,8 @@ public class InscripcionData {
 
         }catch (SQLException ex) {
         JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Inscripcion: "+ex.getMessage());
+       }catch(NullPointerException e){
+           JOptionPane.showMessageDialog(null, "Error! : "+e);
        }
     }
     public List<Inscripcion> obtenerInscripciones(){
@@ -146,7 +149,7 @@ public class InscripcionData {
                 mat.setIdMateria((rs.getInt("idMateria")));
                 mat.setNombre(rs.getString("nombre"));
                 //TODO: Revisar si coinciden estos valores con la BD.//
-                mat.setAnioMateria(rs.getInt("anio"));
+                mat.setAnioMateria(rs.getInt("año"));
                 materias.add(mat);
                 
             }

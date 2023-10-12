@@ -42,7 +42,7 @@ public class Inscripcion {
     }
 
     public Alumno getAlumno() {
-        return alumno;
+        return alumno;   
     }
 
     public void setAlumno(Alumno alumno) {

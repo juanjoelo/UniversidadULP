@@ -23,6 +23,11 @@ public class MateriaData {
     Connection con;
     
     
+    public MateriaData() {
+        con = Conexion.getConnection(); 
+    }
+    
+    
     public void guardarMateria(Materia mat){
         String sql = "INSERT INTO materia (nombre, año, estado) VALUES (?, ?, ?)";
         try {
@@ -33,7 +38,7 @@ public class MateriaData {
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
-                mat.setIdMateria(rs.getInt("idMateria"));
+                mat.setIdMateria(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Materia añadida con exito.");
             }
             ps.close();
