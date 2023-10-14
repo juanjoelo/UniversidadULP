@@ -30,7 +30,7 @@ public class UniversidadULP {
         
 //        Connection con =Conexion.getConnection();
         InscripcionData inscData = new InscripcionData();
-//        AlumnoData alumnoData = new AlumnoData();
+       AlumnoData alumnoData = new AlumnoData();
 //        Alumno al = new Alumno(3255293,"Jeresssssz","Joan",LocalDate.of(2001, Month.MARCH, 5),true);
 //        alumnoData.guardarAlumno(al);
 //        MateriaData matData = new MateriaData();
@@ -48,6 +48,8 @@ public class UniversidadULP {
         //ad.modificarAlumno(new Alumno(18,657567, "Araujo", "Raul", LocalDate.of(1930, Month.MARCH, 14), true));
         //ad.eliminarAlumno(18);  
 //        inscData.borrarInscripcionMateriaAlumno(24, 5);
-        inscData.actualizarNota(1, 1, 10);
+        System.out.println(inscData.obtenerAlumnosXMateria(1));
+        //alumnoData.buscarAlumno(1);
     } 
+    
 }

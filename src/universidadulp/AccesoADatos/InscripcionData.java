@@ -28,6 +28,8 @@ public class InscripcionData {
 
     public InscripcionData() {
         con = Conexion.getConnection(); 
+        aluData = new AlumnoData();
+        mateData = new MateriaData();
     }
     
     public void guardarInscripcion(Inscripcion insc){
@@ -208,14 +210,20 @@ public class InscripcionData {
         try {
             String sql = "SELECT idAlumno FROM inscripcion WHERE idMateria=? ";
             PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idMateria);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {                
-               
-             alumnos.add(aluData.buscarAlumno(rs.getInt("idAlumno")));
+            Alumno al;
+            int id;
+            while (rs.next()) {
+                id = rs.getInt(1);
+                al=aluData.buscarAlumno(id);
+                alumnos.add(al);
             }
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Materia "+ex.getMessage());
+        } catch (NullPointerException npe){
+            JOptionPane.showMessageDialog(null, "Error: "+npe.getMessage());
         }
         return alumnos;
     }
