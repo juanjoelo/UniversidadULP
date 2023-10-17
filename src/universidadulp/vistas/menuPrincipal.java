@@ -27,21 +27,84 @@ public class menuPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuAlumno = new javax.swing.JMenu();
+        formularioAlumno = new javax.swing.JMenuItem();
+        menuMateria = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        menuAdministracion = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        menuConsultas = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        salir = new javax.swing.JMenu();
+
+        jMenu1.setText("jMenu1");
+
+        jMenuItem1.setText("jMenuItem1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        menuAlumno.setText("Alumno");
+
+        formularioAlumno.setText("Formulario de Alumno");
+        menuAlumno.add(formularioAlumno);
+
+        jMenuBar1.add(menuAlumno);
+
+        menuMateria.setText("Materia");
+
+        jMenuItem3.setText("Formulario de materia");
+        menuMateria.add(jMenuItem3);
+
+        jMenuBar1.add(menuMateria);
+
+        menuAdministracion.setText("Administración");
+
+        jMenuItem4.setText("Manejo de inscripciones");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(jMenuItem4);
+
+        jMenuItem5.setText("Manipulación de notas");
+        menuAdministracion.add(jMenuItem5);
+
+        jMenuBar1.add(menuAdministracion);
+
+        menuConsultas.setText("Consultas");
+
+        jMenuItem6.setText("Alumnos por materia");
+        menuConsultas.add(jMenuItem6);
+
+        jMenuBar1.add(menuConsultas);
+
+        salir.setText("Salir");
+        jMenuBar1.add(salir);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 1093, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 530, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +142,18 @@ public class menuPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem formularioAlumno;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenu menuAdministracion;
+    private javax.swing.JMenu menuAlumno;
+    private javax.swing.JMenu menuConsultas;
+    private javax.swing.JMenu menuMateria;
+    private javax.swing.JMenu salir;
     // End of variables declaration//GEN-END:variables
 }
