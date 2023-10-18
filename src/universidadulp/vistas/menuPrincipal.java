@@ -142,7 +142,7 @@ public class menuPrincipal extends javax.swing.JFrame {
 
     private void formularioAlumnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formularioAlumnoActionPerformed
         limpiar();
-        Alumno al = new Alumno();
+        AlumnoView al = new AlumnoView();
         al.setVisible(true);
         escritorio.add(al);
         escritorio.moveToFront(al);

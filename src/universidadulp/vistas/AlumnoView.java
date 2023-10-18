@@ -5,18 +5,21 @@
  */
 package universidadulp.vistas;
 
+import universidadulp.AccesoADatos.AlumnoData;
+
 /**
  *
  * @author juan_
  */
-public class Alumno extends javax.swing.JInternalFrame {
+public class AlumnoView extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form Alumno
      */
-    public Alumno() {
+    public AlumnoView() {
         initComponents();
     }
+    AlumnoData al = new AlumnoData();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,6 +63,11 @@ public class Alumno extends javax.swing.JInternalFrame {
         jLabel6.setText("Fecha de Nacimiento:");
 
         botonNuevo.setText("Nuevo");
+        botonNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonNuevoActionPerformed(evt);
+            }
+        });
 
         botonEliminar.setText("Eliminar");
 
@@ -80,6 +88,11 @@ public class Alumno extends javax.swing.JInternalFrame {
         });
 
         botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,6 +176,32 @@ public class Alumno extends javax.swing.JInternalFrame {
     private void botonRadioEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRadioEstadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonRadioEstadoActionPerformed
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        // TODO add your handling code here:
+        
+        
+       String texto = textoDocumento.getText();
+       int num = Integer.parseInt(texto);
+        al.buscarAlumnoPorDni(num);
+        
+       
+       
+        
+        
+    }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
+       String texto1= textoDocumento.getText();
+       int dni = Integer.parseInt(texto1);
+       String texto2 = textoApellido.getText();
+       String texto3 = textoNombre.getText();
+       boolean estado = botonRadioEstado.isSelected();
+       String date = botonSeleccionFecha.getDateFormatString();
+//       Alumno nuevoAlumno = new Alumno(dni, texto2, texto3, date, estado);
+//       al.guardarAlumno(nuevoAlumno);
+       
+    }//GEN-LAST:event_botonNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
