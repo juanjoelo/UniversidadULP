@@ -131,7 +131,6 @@ public class AlumnoData {
                 alumnos.add(alumno);
                 
             }
-            JOptionPane.showMessageDialog(null, alumnos);
             ps.close();
             
 

@@ -5,17 +5,28 @@
  */
 package universidadulp.vistas;
 
+import java.util.List;
+import universidadulp.AccesoADatos.AlumnoData;
+import universidadulp.AccesoADatos.MateriaData;
+import universidadulp.Entidades.Alumno;
+
 /**
  *
  * @author juan_
  */
 public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
-
+    
+    AlumnoData aluData;
+    MateriaData mateData;
+    
     /**
      * Creates new form FormularioDeInscripcion
      */
     public FormularioDeInscripcion() {
         initComponents();
+        aluData = new AlumnoData();
+        mateData = new MateriaData();
+        inicializarCombo();
     }
 
     /**
@@ -42,8 +53,6 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         jLabel1.setText("Formulario de inscripción");
 
         jLabel2.setText("Seleccione un alumno:");
-
-        comboSeleccionarAlumno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel3.setText("Listado de Materias");
 
@@ -110,7 +119,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(botonInscribir)
@@ -151,6 +160,12 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonRadioMateriasNoInscriptasActionPerformed
 
+    private void inicializarCombo(){
+        List<Alumno> listaAlumnos = aluData.listarAlumnos();
+        for(Alumno al:listaAlumnos){
+            comboSeleccionarAlumno.addItem(al.getNombre()+" "+al.getApellido()+ " DNI: "+ al.getDni());
+        } 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnularInscripcion;
