@@ -150,7 +150,7 @@ public class menuPrincipal extends javax.swing.JFrame {
 
     private void formMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formMateriaActionPerformed
         limpiar();
-        Materia mat = new Materia();
+        MateriaView mat = new MateriaView();
         mat.setVisible(true);
         escritorio.add(mat);
         escritorio.moveToFront(mat);
