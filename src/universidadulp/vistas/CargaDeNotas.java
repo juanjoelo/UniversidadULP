@@ -5,17 +5,35 @@
  */
 package universidadulp.vistas;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import universidadulp.AccesoADatos.AlumnoData;
+import universidadulp.AccesoADatos.InscripcionData;
+import universidadulp.AccesoADatos.MateriaData;
+import universidadulp.Entidades.Alumno;
+import universidadulp.Entidades.Materia;
+
 /**
  *
  * @author juan_
  */
 public class CargaDeNotas extends javax.swing.JInternalFrame {
-
+    
+    private AlumnoData aluData;
+    private MateriaData mateData;
+    private InscripcionData inscData;
+    private DefaultTableModel modelo;
+    
     /**
      * Creates new form CargaDeNotas
      */
     public CargaDeNotas() {
         initComponents();
+            aluData = new AlumnoData();
+            mateData = new MateriaData();
+            inscData = new InscripcionData();
+        armarModelo();
+        inicializarCombo();
     }
 
     /**
@@ -111,7 +129,30 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    private void armarModelo(){
+        modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Año");
+    }
+    private void cargarATabla(List<Materia> materias){
+        for(Materia mat:materias){
+            modelo.addRow(new Object[]{mat.getIdMateria(),
+            mat.getNombre(),
+            mat.getAnioMateria()});
+            }
+        
+        //tablaFormularioInscripcion.setModel(modelo);
+        modelo = null;
+        armarModelo();
+    }
+    private void inicializarCombo(){
+        List<Alumno> listaAlumnos = aluData.listarAlumnos();
+        for(Alumno al:listaAlumnos){
+            //TODO: Cambiar el toString() de Alumno para no tener que usar los getters aca.
+            comboSeleccionarAlumno.addItem(al.getNombre()+" "+al.getApellido()+ " DNI:"+ al.getDni());
+        } 
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGuardar;

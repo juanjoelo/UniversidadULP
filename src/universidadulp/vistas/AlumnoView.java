@@ -349,15 +349,9 @@ public class AlumnoView extends javax.swing.JInternalFrame {
             String texto2 = textoApellido.getText();
             String texto3 = textoNombre.getText();
             boolean estado = botonRadioEstado.isSelected();
-            // Convertir java.util.Date a java.sql.Date
             java.sql.Date dateSql = new java.sql.Date(botonSeleccionFecha.getDate().getTime());  // java.sql.Date directamente
             Alumno nuevoAlumno = new Alumno(id, dni, texto2, texto3, dateSql, estado);
-
             al.modificarAlumno(nuevoAlumno);
-     
-        
-        
-       // al.modificarAlumno(al);
        
     }//GEN-LAST:event_botonModificarMouseClicked
 
