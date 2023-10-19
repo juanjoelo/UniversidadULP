@@ -5,7 +5,9 @@
  */
 package universidadulp.vistas;
 
+import com.sun.org.apache.bcel.internal.generic.ObjectType;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import universidadulp.AccesoADatos.AlumnoData;
 import universidadulp.AccesoADatos.InscripcionData;
@@ -102,6 +104,12 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         botonInscribir.setEnabled(false);
 
         botonAnularInscripcion.setText("Anular inscripción");
+        botonAnularInscripcion.setEnabled(false);
+        botonAnularInscripcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAnularInscripcionActionPerformed(evt);
+            }
+        });
 
         botonSalir.setText("Salir");
 
@@ -169,18 +177,42 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRadioMateriasNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRadioMateriasNoInscriptasActionPerformed
-        // TODO add your handling code here:
+        
+        if(botonRadioMateriasInscriptas.isSelected()){
+            botonRadioMateriasInscriptas.setSelected(false);
+            tablaFormularioInscripcion.removeAll();
+            armarModelo();
+        } 
+        if(!botonRadioMateriasNoInscriptas.isSelected()){
+            modelo.setRowCount(0);
+            tablaFormularioInscripcion.setModel(modelo);
+            botonInscribir.setEnabled(false);
+          
+        }else{
+            botonAnularInscripcion.setEnabled(false);
+            botonInscribir.setEnabled(true);
+            int dniAlumno = recibirDNIAlumno(); 
+            List<Materia> materias = inscData.obtenerMateriasNOCursadas
+                                     (aluData.buscarAlumnoPorDni(dniAlumno).getIdAlumno());
+            cargarATabla(materias);
+        }
     }//GEN-LAST:event_botonRadioMateriasNoInscriptasActionPerformed
-
+    
     private void botonRadioMateriasInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRadioMateriasInscriptasActionPerformed
+        if(botonRadioMateriasNoInscriptas.isSelected()){
+            botonRadioMateriasNoInscriptas.setSelected(false);
+            tablaFormularioInscripcion.removeAll();
+            armarModelo();
+        } 
         if(!botonRadioMateriasInscriptas.isSelected()){
             modelo.setRowCount(0);
             tablaFormularioInscripcion.setModel(modelo);
+            botonAnularInscripcion.setEnabled(false);
             
         }else{
-            String alumno = comboSeleccionarAlumno.getSelectedItem().toString();
-            //Explicacion: Selecciona el texto despues del ":". Que en este caso es el DNI.
-            int dniAlumno = Integer.parseInt(alumno.substring(alumno.lastIndexOf(":") + 1));
+            botonAnularInscripcion.setEnabled(true);
+            botonInscribir.setEnabled(false);
+            int dniAlumno = recibirDNIAlumno(); 
             List<Materia> materias = inscData.obtenerMateriasCursadas
                                      (aluData.buscarAlumnoPorDni(dniAlumno).getIdAlumno());
             cargarATabla(materias);
@@ -188,6 +220,22 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         
        
     }//GEN-LAST:event_botonRadioMateriasInscriptasActionPerformed
+
+    private void botonAnularInscripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnularInscripcionActionPerformed
+        try{
+            int row = tablaFormularioInscripcion.getSelectedRow();
+        int col = 0; //Es 0 porque ID esta en la primera Columna
+        Object idMateria = (tablaFormularioInscripcion.getModel().getValueAt(row, col)); //La unica manera que consegui
+        inscData.borrarInscripcionMateriaAlumno(aluData.                                 //de obtener el id de la tabla es usando
+                buscarAlumnoPorDni(recibirDNIAlumno()).                                  //Object, y getModel().getValueAt()      ////Se reutiliza el metodo recibirDNIAlumno()// 
+                getIdAlumno(),                                                           // que retorna Object (Luego se utiliza. ////porque no hay otra manera de conseguir el DNI.//
+                Integer.parseInt(idMateria.toString()));                                 //Una combinacion de .toString y parseInt para poder utilizarlo como int).
+        //TODO IMPORTANTE: SOLUCIONAR EL BUG DE LOS BOTONES QUE SI ESTA VACIO LAS MATERIAS INSCRIPTAS NO MUESTRA LAS NO INSCRIPTAS!! // BUG SOLUCIONADO
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Hubo un error.");
+        }
+        
+    }//GEN-LAST:event_botonAnularInscripcionActionPerformed
 
     private void inicializarCombo(){
         List<Alumno> listaAlumnos = aluData.listarAlumnos();
@@ -202,6 +250,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
         modelo.addColumn("Año");
+        tablaFormularioInscripcion.setModel(modelo); 
     }
     
     private void cargarATabla(List<Materia> materias){
@@ -211,9 +260,13 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
             mat.getAnioMateria()});
             }
         
-        tablaFormularioInscripcion.setModel(modelo);
-        modelo = null;
-        armarModelo();
+        tablaFormularioInscripcion.setModel(modelo); 
+  }
+
+    private int recibirDNIAlumno(){
+        String alumno = comboSeleccionarAlumno.getSelectedItem().toString();
+        int dniAlumno = Integer.parseInt(alumno.substring(alumno.lastIndexOf(":") + 1)); 
+        return dniAlumno;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

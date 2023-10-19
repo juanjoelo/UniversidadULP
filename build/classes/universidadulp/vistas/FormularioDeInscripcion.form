@@ -162,7 +162,11 @@
     <Component class="javax.swing.JButton" name="botonAnularInscripcion">
       <Properties>
         <Property name="text" type="java.lang.String" value="Anular inscripci&#xf3;n"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAnularInscripcionActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="botonSalir">
       <Properties>

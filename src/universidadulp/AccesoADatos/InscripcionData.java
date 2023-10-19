@@ -115,7 +115,6 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-           
             
             while (rs.next()) {
                 Materia mat = new Materia();
@@ -125,7 +124,6 @@ public class InscripcionData {
                 //TODO: Revisar si coinciden estos valores con la BD.//
                 mat.setAnioMateria(rs.getInt("año"));
                 materias.add(mat);
-                
             }
             ps.close();
             
@@ -137,24 +135,25 @@ public class InscripcionData {
     }
     
     public List<Materia> obtenerMateriasNOCursadas(int id){
+        System.out.println("Test inicial");
          try{
-            String sql = "SELECT * FROM inscripcion INNER JOIN "
-                    + "materia WHERE idAlumno=? AND "
-                    + "inscripcion.idMateria!=materia.idMateria";
+            String sql = "SELECT * FROM materia WHERE materia.idMateria NOT IN "
+                    + "(SELECT inscripcion.idMateria "
+                    + "FROM inscripcion WHERE inscripcion.idAlumno = ?)";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             List<Materia> materias = new ArrayList<>();
-            
+            System.out.println("Test medio");
             while (rs.next()) {
                 Materia mat = new Materia();
 
                 mat.setIdMateria((rs.getInt("idMateria")));
                 mat.setNombre(rs.getString("nombre"));
-                //TODO: Revisar si coinciden estos valores con la BD.//
+                //TODO: Revisar si coinciden estos valores con la BD.(HECHO)
                 mat.setAnioMateria(rs.getInt("año"));
                 materias.add(mat);
-                
+              System.out.println("Test Fondo");  
             }
             ps.close();
             return materias;
