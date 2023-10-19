@@ -5,7 +5,10 @@
  */
 package universidadulp.vistas;
 
+import java.sql.Date;
+import javax.swing.JOptionPane;
 import universidadulp.AccesoADatos.AlumnoData;
+import universidadulp.Entidades.Alumno;
 
 /**
  *
@@ -63,6 +66,11 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         jLabel6.setText("Fecha de Nacimiento:");
 
         botonNuevo.setText("Nuevo");
+        botonNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonNuevoMouseClicked(evt);
+            }
+        });
         botonNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonNuevoActionPerformed(evt);
@@ -70,24 +78,64 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         });
 
         botonEliminar.setText("Eliminar");
+        botonEliminar.setEnabled(false);
+        botonEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonEliminarMouseClicked(evt);
+            }
+        });
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonGuardar.setText("Guardar");
+        botonGuardar.setEnabled(false);
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         botonSalir.setText("Salir");
+        botonSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonSalirMouseClicked(evt);
+            }
+        });
 
+        textoDocumento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                textoDocumentoMouseClicked(evt);
+            }
+        });
+        textoDocumento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textoDocumentoActionPerformed(evt);
+            }
+        });
+
+        textoApellido.setEnabled(false);
+
+        textoNombre.setEnabled(false);
         textoNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textoNombreActionPerformed(evt);
             }
         });
 
+        botonRadioEstado.setEnabled(false);
         botonRadioEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonRadioEstadoActionPerformed(evt);
             }
         });
 
+        botonSeleccionFecha.setEnabled(false);
+
         botonBuscar.setText("Buscar");
+        botonBuscar.setEnabled(false);
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
@@ -180,30 +228,123 @@ public class AlumnoView extends javax.swing.JInternalFrame {
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
         
-        
-       String texto = textoDocumento.getText();
+        try {
+            String texto = textoDocumento.getText();
        int num = Integer.parseInt(texto);
         al.buscarAlumnoPorDni(num);
+        botonEliminar.setEnabled(true);
         
-       
-       
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Campo vacío. Introduzca el dato correcto para buscar.");
+        }
+        catch(NumberFormatException e){
+           JOptionPane.showMessageDialog(null, "Error al buscar. Introduzca un dato válido.");
+
+        }
         
         
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
-       String texto1= textoDocumento.getText();
-       int dni = Integer.parseInt(texto1);
-       String texto2 = textoApellido.getText();
-       String texto3 = textoNombre.getText();
-       boolean estado = botonRadioEstado.isSelected();
-       String date = botonSeleccionFecha.getDateFormatString();
-//       Alumno nuevoAlumno = new Alumno(dni, texto2, texto3, date, estado);
-//       al.guardarAlumno(nuevoAlumno);
+       
        
     }//GEN-LAST:event_botonNuevoActionPerformed
 
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        // TODO add your handling code here:
+        boolean completado=false;
+        
+        try {
+            String texto1= textoDocumento.getText();
+            int dni = Integer.parseInt(texto1);
+            String texto2 = textoApellido.getText();
+            String texto3 = textoNombre.getText();
+            boolean estado = botonRadioEstado.isSelected();
+            // Convertir java.util.Date a java.sql.Date
+            java.sql.Date dateSql = new java.sql.Date(botonSeleccionFecha.getDate().getTime());  // java.sql.Date directamente
+            Alumno nuevoAlumno = new Alumno(dni, texto2, texto3, dateSql, estado);
+            al.guardarAlumno(nuevoAlumno);
+            completado = true;
+            if (completado= true) {
+                limpiar();
+                deshabilitarCampos();
+            }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Error. Uno o varios campos erróneos.");
+        }
+        catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Error. Uno o varios campos erróneos.");
+        }
+     
+    }//GEN-LAST:event_botonGuardarActionPerformed
 
+    private void textoDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoDocumentoActionPerformed
+        // TODO add your handling code here:
+      
+    }//GEN-LAST:event_textoDocumentoActionPerformed
+
+    private void textoDocumentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_textoDocumentoMouseClicked
+        // TODO add your handling code here:
+         botonBuscar.setEnabled(true);
+        
+    }//GEN-LAST:event_textoDocumentoMouseClicked
+
+    private void botonNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonNuevoMouseClicked
+        // TODO add your handling code here:
+        textoNombre.setEnabled(true);
+        textoApellido.setEnabled(true);
+        textoDocumento.setEnabled(true);
+        botonRadioEstado.setEnabled(true);
+        botonSeleccionFecha.setEnabled(true);
+        botonGuardar.setEnabled(true);
+    }//GEN-LAST:event_botonNuevoMouseClicked
+
+    private void botonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonSalirMouseClicked
+        // TODO add your handling code here:
+       
+        dispose();
+    
+    }//GEN-LAST:event_botonSalirMouseClicked
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_botonEliminarActionPerformed
+
+    private void botonEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonEliminarMouseClicked
+        // TODO add your handling code here:
+        int texto1= Integer.parseInt(textoDocumento.getText());
+        al.eliminarAlumnoPorDNI(texto1);
+        textoDocumento.setText("");
+        
+    }//GEN-LAST:event_botonEliminarMouseClicked
+
+    public void limpiar(){
+        textoDocumento.setText("");
+        textoApellido.setText("");
+        textoNombre.setText("");
+        botonRadioEstado.setSelected(false);
+        botonSeleccionFecha.setDate(null);
+    }
+    public void deshabilitarCampos(){
+        textoNombre.setEnabled(false);
+        textoApellido.setEnabled(false);
+        textoDocumento.setEnabled(false);
+        botonRadioEstado.setEnabled(false);
+        botonSeleccionFecha.setEnabled(false);
+        botonGuardar.setEnabled(false);
+        botonEliminar.setEnabled(false);
+    }
+    public void habilitarCampos(){
+        textoNombre.setEnabled(true);
+        textoApellido.setEnabled(true);
+        textoDocumento.setEnabled(true);
+        botonRadioEstado.setEnabled(true);
+        botonSeleccionFecha.setEnabled(true);
+        botonGuardar.setEnabled(true);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEliminar;

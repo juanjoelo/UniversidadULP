@@ -48,7 +48,7 @@ public class UniversidadULP {
         //ad.modificarAlumno(new Alumno(18,657567, "Araujo", "Raul", LocalDate.of(1930, Month.MARCH, 14), true));
         //ad.eliminarAlumno(18);  
 //        inscData.borrarInscripcionMateriaAlumno(24, 5);
-        System.out.println(inscData.obtenerAlumnosXMateria(1));
+        //System.out.println(inscData.obtenerAlumnosXMateria(1));
         //alumnoData.buscarAlumno(1);
     } 
     

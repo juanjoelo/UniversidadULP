@@ -41,7 +41,11 @@ public class Conexion {
                 connection= DriverManager
                         .getConnection(URL+DB + "?useLegacyDatetimeCode = false&serverTimezone=UTC"
                         + "&user="+ USUARIO + "&password="+PASSWORD);
+
                         
+
+
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error al conectarse a la BD "+ex.getMessage());
             } catch (ClassNotFoundException ex) {

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package universidadulp.AccesoADatos;
-
+import java.sql.Date;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -34,8 +34,8 @@ public class AlumnoData {
            ps.setInt(1, al.getDni());
            ps.setString(2, al.getApellido());
            ps.setString(3, al.getNombre());
-           ps.setDate(4, Date.valueOf(al.getFechaNacimiento()));//localDate a Date
-           ps.setBoolean(5, al.isEstado()); // if reducido
+           ps.setDate(4, al.getFechaNacimiento());
+           ps.setBoolean(5, al.isEstado()); // 
            ps.executeUpdate();
            ResultSet rs = ps.getGeneratedKeys();
            if (rs.next()) {
@@ -66,7 +66,9 @@ public class AlumnoData {
     alumno.setDni(rs.getInt("dni"));
     alumno.setApellido(rs.getString("apellido"));
     alumno.setNombre(rs.getString("nombre"));
-    alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+    alumno.setFechaNacimiento(rs.getDate("fechaNacimiento"));
+    //antes escribimos esto alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());, pero otra vez la estamos transformando, y no hace falta.
+    //borramos '.toLocalDate()' y debería andar.
     alumno.setEstado(true);
        // System.out.println(alumno);
         JOptionPane.showMessageDialog(null, alumno);
@@ -96,7 +98,7 @@ public class AlumnoData {
             alumno.setDni(rs.getInt("dni"));
             alumno.setApellido(rs.getString("apellido"));
             alumno.setNombre(rs.getString("nombre"));
-            alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+            alumno.setFechaNacimiento(rs.getDate("fechaNacimiento"));
             alumno.setEstado(true);
             
             
@@ -126,7 +128,7 @@ public class AlumnoData {
                 alumno.setDni(rs.getInt("dni"));
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
-                alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());
+                alumno.setFechaNacimiento(rs.getDate("fechaNacimiento"));
                 alumno.setEstado(rs.getBoolean("estado"));
                 alumnos.add(alumno);
                 
@@ -149,7 +151,14 @@ public class AlumnoData {
         ps.setInt(1, al.getDni());
         ps.setString(2, al.getApellido());
         ps.setString(3, al.getNombre());
-        ps.setDate(4, Date.valueOf(al.getFechaNacimiento()));
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+//----> Antes la linea era así--> ps.setDate(4, Date.valueOf(al.getFechaNacimiento())); pero al estar convirtiendo
+//      la fecha directamente en el constructor de alumno,
+//      ya no hace falta escribirlo así, sino pasar directamente 'getFechaNacimiento();'
+//      asumiendo que getFechaNacimiento() devuelve un objeto de tipo java.sql.Date,
+//      no es necesario convertirlo con Date.valueOf(). 
+//      La conversión ya se habría hecho en la implementación de getFechaNacimiento();.
+        ps.setDate(4,al.getFechaNacimiento());
         ps.setInt(5, al.getIdAlumno());
         int exito = ps.executeUpdate();
 
@@ -180,5 +189,21 @@ public class AlumnoData {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno");
         }
 
+    }
+    
+    public void eliminarAlumnoPorDNI(int dni){
+        try {
+            String sql = "UPDATE alumno SET estado = 0 WHERE dni = ? ";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, dni);
+            int fila=ps.executeUpdate();
+
+            if(fila==1){
+                JOptionPane.showMessageDialog(null, " Se eliminó el alumno.");
+                }
+                ps.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno");
+        }
     }
 }

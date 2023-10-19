@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package universidadulp.Entidades;
-
+import java.sql.Date;
 import java.time.LocalDate;
 
 /**
@@ -16,13 +16,13 @@ public class Alumno {
     private int dni;
     private String apellido;
     private String nombre;
-    private LocalDate fechaNacimiento;
+    private java.sql.Date fechaNacimiento;
     private boolean estado;
 
     public Alumno() {
     }
 //Se agregó el constructor sin el id.
-    public Alumno(int dni, String apellido, String nombre, LocalDate fechaNacimiento, boolean estado) {
+    public Alumno(int dni, String apellido, String nombre, java.sql.Date fechaNacimiento, boolean estado) {
         this.dni = dni;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -32,7 +32,7 @@ public class Alumno {
     
     
 
-    public Alumno(int idAlumno, int dni, String apellido, String nombre, LocalDate fechaNacimiento, boolean estado) {
+    public Alumno(int idAlumno, int dni, String apellido, String nombre, java.sql.Date fechaNacimiento, boolean estado) {
         this.idAlumno = idAlumno;
         this.dni = dni;
         this.apellido = apellido;
@@ -73,11 +73,11 @@ public class Alumno {
         this.nombre = nombre;
     }
 
-    public LocalDate getFechaNacimiento() {
+    public java.sql.Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    public void setFechaNacimiento(java.sql.Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -91,7 +91,13 @@ public class Alumno {
 
     @Override
     public String toString() {
-        return "Alumno{" + "idAlumno=" + idAlumno + ", dni=" + dni + ", apellido=" + apellido + ", nombre=" + nombre + ", fechaNacimiento=" + fechaNacimiento + ", estado=" + estado + '}';
+        return "Alumno: " + "\n" +
+               "idAlumno: " + idAlumno +"\n" +
+               "DNI: " + dni + "\n" +
+               "Apellido: " + apellido +"\n" +
+               "Nombre: " + nombre +"\n" + 
+               "Fecha de nacimiento: " + fechaNacimiento + "\n" +
+               "Activo: " + estado;
     }
     
     
