@@ -107,6 +107,7 @@ public class InscripcionData {
     }
     
     public List<Materia> obtenerMateriasCursadas(int id){
+         List<Materia> materias = new ArrayList<>();
         try{
             String sql = "SELECT * FROM inscripcion INNER JOIN "
                     + "materia WHERE idAlumno=? AND "
@@ -114,7 +115,7 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            List<Materia> materias = new ArrayList<>();
+           
             
             while (rs.next()) {
                 Materia mat = new Materia();
@@ -122,17 +123,17 @@ public class InscripcionData {
                 mat.setIdMateria((rs.getInt("idMateria")));
                 mat.setNombre(rs.getString("nombre"));
                 //TODO: Revisar si coinciden estos valores con la BD.//
-                mat.setAnioMateria(rs.getInt("anio"));
+                mat.setAnioMateria(rs.getInt("año"));
                 materias.add(mat);
                 
             }
             ps.close();
-            return materias;
+            
 
         } catch (SQLException ex) {
         JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno "+ex.getMessage());
         }
-        return null;
+        return materias;
     }
     
     public List<Materia> obtenerMateriasNOCursadas(int id){
@@ -191,7 +192,7 @@ public class InscripcionData {
                 ps.setInt(3, idMateria);
                 int exito = ps.executeUpdate();
                 if (exito == 1 ) {
-                    JOptionPane.showMessageDialog(null, "Nota actualizdad satisfactoriamente");
+                    JOptionPane.showMessageDialog(null, "Nota actualizada satisfactoriamente.");
                     
                 }else{
                     JOptionPane.showMessageDialog(null, "Error al acceder a la tabla inscripción.");

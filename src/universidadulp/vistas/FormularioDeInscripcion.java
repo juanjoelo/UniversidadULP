@@ -6,9 +6,12 @@
 package universidadulp.vistas;
 
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import universidadulp.AccesoADatos.AlumnoData;
+import universidadulp.AccesoADatos.InscripcionData;
 import universidadulp.AccesoADatos.MateriaData;
 import universidadulp.Entidades.Alumno;
+import universidadulp.Entidades.Materia;
 
 /**
  *
@@ -16,8 +19,10 @@ import universidadulp.Entidades.Alumno;
  */
 public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
     
-    AlumnoData aluData;
-    MateriaData mateData;
+    private AlumnoData aluData;
+    private MateriaData mateData;
+    private InscripcionData inscData;
+    private DefaultTableModel modelo;
     
     /**
      * Creates new form FormularioDeInscripcion
@@ -26,6 +31,8 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         initComponents();
         aluData = new AlumnoData();
         mateData = new MateriaData();
+        inscData = new InscripcionData();
+        armarModelo();
         inicializarCombo();
     }
 
@@ -57,6 +64,11 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         jLabel3.setText("Listado de Materias");
 
         botonRadioMateriasInscriptas.setText("Materias Inscriptas");
+        botonRadioMateriasInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRadioMateriasInscriptasActionPerformed(evt);
+            }
+        });
 
         botonRadioMateriasNoInscriptas.setText("Materias no inscriptas");
         botonRadioMateriasNoInscriptas.addActionListener(new java.awt.event.ActionListener() {
@@ -144,8 +156,8 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
                     .addComponent(botonRadioMateriasInscriptas)
                     .addComponent(botonRadioMateriasNoInscriptas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonInscribir)
                     .addComponent(botonAnularInscripcion)
@@ -160,11 +172,48 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_botonRadioMateriasNoInscriptasActionPerformed
 
+    private void botonRadioMateriasInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRadioMateriasInscriptasActionPerformed
+        if(!botonRadioMateriasInscriptas.isSelected()){
+            modelo.setRowCount(0);
+            tablaFormularioInscripcion.setModel(modelo);
+            
+        }else{
+            String alumno = comboSeleccionarAlumno.getSelectedItem().toString();
+            //Explicacion: Selecciona el texto despues del ":". Que en este caso es el DNI.
+            int dniAlumno = Integer.parseInt(alumno.substring(alumno.lastIndexOf(":") + 1));
+            List<Materia> materias = inscData.obtenerMateriasCursadas
+                                     (aluData.buscarAlumnoPorDni(dniAlumno).getIdAlumno());
+            cargarATabla(materias);
+        }
+        
+       
+    }//GEN-LAST:event_botonRadioMateriasInscriptasActionPerformed
+
     private void inicializarCombo(){
         List<Alumno> listaAlumnos = aluData.listarAlumnos();
         for(Alumno al:listaAlumnos){
-            comboSeleccionarAlumno.addItem(al.getNombre()+" "+al.getApellido()+ " DNI: "+ al.getDni());
+            //TODO: Cambiar el toString() de Alumno para no tener que usar los getters aca.
+            comboSeleccionarAlumno.addItem(al.getNombre()+" "+al.getApellido()+ " DNI:"+ al.getDni());
         } 
+    }
+    
+     private void armarModelo(){
+        modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Año");
+    }
+    
+    private void cargarATabla(List<Materia> materias){
+        for(Materia mat:materias){
+            modelo.addRow(new Object[]{mat.getIdMateria(),
+            mat.getNombre(),
+            mat.getAnioMateria()});
+            }
+        
+        tablaFormularioInscripcion.setModel(modelo);
+        modelo = null;
+        armarModelo();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
