@@ -50,6 +50,7 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         botonRadioEstado = new javax.swing.JRadioButton();
         botonSeleccionFecha = new com.toedter.calendar.JDateChooser();
         botonBuscar = new javax.swing.JButton();
+        botonModificar = new javax.swing.JButton();
 
         jLabel7.setText("jLabel7");
 
@@ -135,10 +136,17 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         botonSeleccionFecha.setEnabled(false);
 
         botonBuscar.setText("Buscar");
-        botonBuscar.setEnabled(false);
         botonBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonBuscarActionPerformed(evt);
+            }
+        });
+
+        botonModificar.setText("Modificar");
+        botonModificar.setEnabled(false);
+        botonModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonModificarMouseClicked(evt);
             }
         });
 
@@ -176,8 +184,10 @@ public class AlumnoView extends javax.swing.JInternalFrame {
                                     .addComponent(textoApellido)
                                     .addComponent(textoNombre)
                                     .addComponent(botonRadioEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                                .addComponent(botonBuscar)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(botonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(botonModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -189,10 +199,15 @@ public class AlumnoView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(textoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(textoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(textoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(botonModificar)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -227,13 +242,19 @@ public class AlumnoView extends javax.swing.JInternalFrame {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
-        
+       
         try {
             String texto = textoDocumento.getText();
        int num = Integer.parseInt(texto);
-        al.buscarAlumnoPorDni(num);
+       Alumno alumno1 = al.buscarAlumnoPorDni(num);
         botonEliminar.setEnabled(true);
-        
+         botonModificar.setEnabled(true);
+        JOptionPane.showMessageDialog(null, alumno1.toString());
+        textoApellido.setText(alumno1.getApellido());
+        textoNombre.setText(alumno1.getNombre());
+        botonRadioEstado.setSelected(alumno1.isEstado());
+        botonSeleccionFecha.setDate(alumno1.getFechaNacimiento());
+        habilitarCampos();
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(null, "Campo vacío. Introduzca el dato correcto para buscar.");
         }
@@ -319,6 +340,27 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_botonEliminarMouseClicked
 
+    private void botonModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonModificarMouseClicked
+        // TODO add your handling code here:
+           
+            String texto = textoDocumento.getText();
+            int dni = Integer.parseInt(texto);
+            int id = al.buscarAlumnoPorDni(dni).getIdAlumno();
+            String texto2 = textoApellido.getText();
+            String texto3 = textoNombre.getText();
+            boolean estado = botonRadioEstado.isSelected();
+            // Convertir java.util.Date a java.sql.Date
+            java.sql.Date dateSql = new java.sql.Date(botonSeleccionFecha.getDate().getTime());  // java.sql.Date directamente
+            Alumno nuevoAlumno = new Alumno(id, dni, texto2, texto3, dateSql, estado);
+
+            al.modificarAlumno(nuevoAlumno);
+     
+        
+        
+       // al.modificarAlumno(al);
+       
+    }//GEN-LAST:event_botonModificarMouseClicked
+
     public void limpiar(){
         textoDocumento.setText("");
         textoApellido.setText("");
@@ -329,7 +371,6 @@ public class AlumnoView extends javax.swing.JInternalFrame {
     public void deshabilitarCampos(){
         textoNombre.setEnabled(false);
         textoApellido.setEnabled(false);
-        textoDocumento.setEnabled(false);
         botonRadioEstado.setEnabled(false);
         botonSeleccionFecha.setEnabled(false);
         botonGuardar.setEnabled(false);
@@ -349,6 +390,7 @@ public class AlumnoView extends javax.swing.JInternalFrame {
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonEliminar;
     private javax.swing.JButton botonGuardar;
+    private javax.swing.JButton botonModificar;
     private javax.swing.JButton botonNuevo;
     private javax.swing.JRadioButton botonRadioEstado;
     private javax.swing.JButton botonSalir;

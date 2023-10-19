@@ -144,7 +144,7 @@ public class AlumnoData {
     
     public void modificarAlumno(Alumno al){
         String sql = "UPDATE alumno SET dni = ? , apellido = ?, nombre = ?, fechaNacimiento = ? WHERE idAlumno = ?";
-    PreparedStatement ps = null;
+        PreparedStatement ps = null;
 
     try {
         ps = con.prepareStatement(sql);
@@ -206,4 +206,6 @@ public class AlumnoData {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Alumno");
         }
     }
+    
+    
 }
