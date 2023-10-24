@@ -80,13 +80,13 @@ public class InscripcionData {
         return null;
         
     }
-    public List<Inscripcion> obtenerInscripcionesPorAlumno(int id){
+    public ArrayList<Inscripcion> obtenerInscripcionesPorAlumno(int id){
         try {
             String sql = "SELECT * FROM inscripcion WHERE idAlumno=?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            List<Inscripcion> inscriptos = new ArrayList<>();
+            ArrayList<Inscripcion> inscriptos = new ArrayList<>();
             
             while (rs.next()) {
                 Inscripcion insc = new Inscripcion();
@@ -123,6 +123,7 @@ public class InscripcionData {
                 mat.setNombre(rs.getString("nombre"));
                 //TODO: Revisar si coinciden estos valores con la BD.//
                 mat.setAnioMateria(rs.getInt("año"));
+                
                 materias.add(mat);
             }
             ps.close();
@@ -227,4 +228,32 @@ public class InscripcionData {
         }
         return alumnos;
     }
+        
+    public List<Materia> obtenerMateriasPorAlumno(int idAlumno){
+        List<Materia>materia = new ArrayList<>();
+        try {
+            String sql = "SELECT idMateria FROM inscripcion WHERE idAlumno=?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, idAlumno);
+            ResultSet rs = ps.executeQuery();
+            Materia mt;
+            int id;
+            while (rs.next()){
+                id =rs.getInt(1);
+                mt=mateData.buscarMateria(id);
+                materia.add(mt);
+                
+            }
+             ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Materia "+ex.getMessage());
+        } catch (NullPointerException npe){
+            JOptionPane.showMessageDialog(null, "Error: "+npe.getMessage());
+        }
+        return materia;
+    }
+    
+    
+    
 }
+
