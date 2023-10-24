@@ -64,7 +64,7 @@ public class MateriaData {
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("año"));
                 materia.setActivo(true);
-                JOptionPane.showMessageDialog(null, materia);
+
      
             }
             else{
