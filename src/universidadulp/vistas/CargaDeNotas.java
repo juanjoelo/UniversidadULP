@@ -25,11 +25,10 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
     private AlumnoData aluData;
     private MateriaData mateData;
     private InscripcionData inscData;
- 
-    private DefaultTableModel modeloTabla = new DefaultTableModel(){
+    private DefaultTableModel modeloTabla;
         
-        
-};
+       
+
     
     /**
      * Creates new form CargaDeNotas
@@ -150,7 +149,6 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
         int dni = recibirDNIAlumno();        
         Alumno alumno = aluData.buscarAlumnoPorDni(dni);
         ArrayList<Inscripcion> inscripciones = inscData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
-        
         try {
             if (!inscripciones.isEmpty()) {
            

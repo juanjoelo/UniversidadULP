@@ -87,13 +87,15 @@ public class InscripcionData {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             ArrayList<Inscripcion> inscriptos = new ArrayList<>();
-            
-            while (rs.next()) {
-                Inscripcion insc = new Inscripcion();
 
-                insc.getAlumno().setIdAlumno((rs.getInt("idAlumno")));
+            Alumno alumno = aluData.buscarAlumno(id);
+            while (rs.next()) {
+                Materia materia = new Materia();
+                materia = mateData.buscarMateria(rs.getInt(1));
+                Inscripcion insc = new Inscripcion();
+                insc.setAlumno(alumno);
+                insc.setMateria(materia);
                 insc.setNota(rs.getInt("nota"));
-                insc.getMateria().setIdMateria(rs.getInt("idMateria"));
                 inscriptos.add(insc);
                 
             }
