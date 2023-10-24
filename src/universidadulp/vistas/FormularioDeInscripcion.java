@@ -13,6 +13,7 @@ import universidadulp.AccesoADatos.AlumnoData;
 import universidadulp.AccesoADatos.InscripcionData;
 import universidadulp.AccesoADatos.MateriaData;
 import universidadulp.Entidades.Alumno;
+import universidadulp.Entidades.Inscripcion;
 import universidadulp.Entidades.Materia;
 
 /**
@@ -36,6 +37,8 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         inscData = new InscripcionData();
         armarModelo();
         inicializarCombo();
+        tablaFormularioInscripcion.getTableHeader().setReorderingAllowed(false);
+        tablaFormularioInscripcion.setDefaultEditor(Object.class, null);
     }
 
     /**
@@ -62,6 +65,12 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         jLabel1.setText("Formulario de inscripción");
 
         jLabel2.setText("Seleccione un alumno:");
+
+        comboSeleccionarAlumno.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboSeleccionarAlumnoItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Listado de Materias");
 
@@ -102,6 +111,11 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
 
         botonInscribir.setText("Inscribir");
         botonInscribir.setEnabled(false);
+        botonInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonInscribirActionPerformed(evt);
+            }
+        });
 
         botonAnularInscripcion.setText("Anular inscripción");
         botonAnularInscripcion.setEnabled(false);
@@ -112,6 +126,11 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         });
 
         botonSalir.setText("Salir");
+        botonSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonSalirMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -179,9 +198,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
     private void botonRadioMateriasNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRadioMateriasNoInscriptasActionPerformed
         
         if(botonRadioMateriasInscriptas.isSelected()){
-            botonRadioMateriasInscriptas.setSelected(false);
-            tablaFormularioInscripcion.removeAll();
-            armarModelo();
+            deseleccionarBotonInscriptas();
         } 
         if(!botonRadioMateriasNoInscriptas.isSelected()){
             modelo.setRowCount(0);
@@ -200,9 +217,7 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
     
     private void botonRadioMateriasInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRadioMateriasInscriptasActionPerformed
         if(botonRadioMateriasNoInscriptas.isSelected()){
-            botonRadioMateriasNoInscriptas.setSelected(false);
-            tablaFormularioInscripcion.removeAll();
-            armarModelo();
+            deseleccionarBotonNoInscriptas();
         } 
         if(!botonRadioMateriasInscriptas.isSelected()){
             modelo.setRowCount(0);
@@ -230,17 +245,47 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
                 buscarAlumnoPorDni(recibirDNIAlumno()).                                  //Object, y getModel().getValueAt()      ////Se reutiliza el metodo recibirDNIAlumno()// 
                 getIdAlumno(),                                                           // que retorna Object (Luego se utiliza. ////porque no hay otra manera de conseguir el DNI.//
                 Integer.parseInt(idMateria.toString()));                                 //Una combinacion de .toString y parseInt para poder utilizarlo como int).
-        //TODO IMPORTANTE: SOLUCIONAR EL BUG DE LOS BOTONES QUE SI ESTA VACIO LAS MATERIAS INSCRIPTAS NO MUESTRA LAS NO INSCRIPTAS!! // BUG SOLUCIONADO
+        //TODO IMPORTANTE: SOLUCIONAR EL BUG DE LOS BOTONES QUE SI ESTA VACIO LAS MATERIAS INSCRIPTAS NO MUESTRA LAS NO INSCRIPTAS!! // BUG SOLUCIONADO //Bruno
+        botonRadioMateriasInscriptas.setSelected(false);
+        tablaFormularioInscripcion.removeAll();
+        armarModelo();
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Hubo un error.");
         }
         
     }//GEN-LAST:event_botonAnularInscripcionActionPerformed
 
+    private void botonInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonInscribirActionPerformed
+        try{
+            int row = tablaFormularioInscripcion.getSelectedRow();
+        int col = 0; //Es 0 porque ID esta en la primera Columna
+        Object idMateria = (tablaFormularioInscripcion.getModel().getValueAt(row, col)); 
+        Inscripcion insc = new Inscripcion(aluData.buscarAlumnoPorDni(recibirDNIAlumno()),
+                (mateData.buscarMateria(Integer.parseInt(idMateria.toString()))), 0);
+        inscData.guardarInscripcion(insc); 
+        botonRadioMateriasNoInscriptas.setSelected(false);
+        tablaFormularioInscripcion.removeAll();
+        armarModelo();
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Hubo un error.");
+        }
+    }//GEN-LAST:event_botonInscribirActionPerformed
+
+    private void botonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonSalirMouseClicked
+        dispose();
+    }//GEN-LAST:event_botonSalirMouseClicked
+
+    private void comboSeleccionarAlumnoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSeleccionarAlumnoItemStateChanged
+        if(botonRadioMateriasNoInscriptas.isSelected()){
+            deseleccionarBotonNoInscriptas();
+        }else if(botonRadioMateriasInscriptas.isSelected()){
+            deseleccionarBotonInscriptas();
+        } 
+    }//GEN-LAST:event_comboSeleccionarAlumnoItemStateChanged
+
     private void inicializarCombo(){
         List<Alumno> listaAlumnos = aluData.listarAlumnos();
         for(Alumno al:listaAlumnos){
-            //TODO: Cambiar el toString() de Alumno para no tener que usar los getters aca.
             comboSeleccionarAlumno.addItem(al.getNombre()+" "+al.getApellido()+ " DNI:"+ al.getDni());
         } 
     }
@@ -268,6 +313,20 @@ public class FormularioDeInscripcion extends javax.swing.JInternalFrame {
         int dniAlumno = Integer.parseInt(alumno.substring(alumno.lastIndexOf(":") + 1)); 
         return dniAlumno;
     }
+    
+    private void deseleccionarBotonInscriptas(){
+         botonRadioMateriasInscriptas.setSelected(false);
+         tablaFormularioInscripcion.removeAll();
+         armarModelo();
+    }
+    
+    private void deseleccionarBotonNoInscriptas(){
+         botonRadioMateriasNoInscriptas.setSelected(false);
+         tablaFormularioInscripcion.removeAll();
+         armarModelo();
+    }
+    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnularInscripcion;
