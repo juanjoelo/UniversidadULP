@@ -146,26 +146,31 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
 
     private void botonBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarMouseClicked
       
-        int dni = recibirDNIAlumno();        
-        Alumno alumno = aluData.buscarAlumnoPorDni(dni);
-        ArrayList<Inscripcion> inscripciones = inscData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
-        try {
-            if (!inscripciones.isEmpty()) {
-           
-       
-        for (Inscripcion inscripcion : inscripciones) {
-            
-            modeloTabla.addRow(new Object[]{
-                inscripcion.getMateria().getIdMateria(),
-                inscripcion.getMateria().getNombre(),
-                inscripcion.getNota()
-            });
+    int dni = recibirDNIAlumno();        
+    Alumno alumno = aluData.buscarAlumnoPorDni(dni);
+
+    if (alumno != null) {
+    ArrayList<Inscripcion> inscripciones = inscData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
+    
+    try {
+        if (inscripciones != null && !inscripciones.isEmpty()) {
+            for (Inscripcion inscripcion : inscripciones) {
+                modeloTabla.addRow(new Object[]{
+                    inscripcion.getMateria().getIdMateria(),
+                    inscripcion.getMateria().getNombre(),
+                    inscripcion.getNota()
+                });
+            }
+            tablaCargaNotas.setModel(modeloTabla);
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontraron inscripciones para este alumno.");
         }
-        tablaCargaNotas.setModel(modeloTabla);
-   }
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Null pointer");
-        }
+    } catch (NullPointerException e) {
+        JOptionPane.showMessageDialog(null, "Null pointer");
+    }
+} else {
+    JOptionPane.showMessageDialog(null, "No se encontró al alumno con el DNI especificado.");
+}
         
     }//GEN-LAST:event_botonBuscarMouseClicked
     private void armarModelo(){
