@@ -70,8 +70,6 @@ public class AlumnoData {
     //antes escribimos esto alumno.setFechaNacimiento(rs.getDate("fechaNacimiento").toLocalDate());, pero otra vez la estamos transformando, y no hace falta.
     //borramos '.toLocalDate()' y debería andar.
     alumno.setEstado(true);
-       // System.out.println(alumno);
-        JOptionPane.showMessageDialog(null, alumno);
     } else {
     JOptionPane.showMessageDialog(null, "No existe el alumno");
    ps.close();
