@@ -15,6 +15,7 @@ import universidadulp.AccesoADatos.MateriaData;
 import universidadulp.Entidades.Alumno;
 import universidadulp.Entidades.Inscripcion;
 import universidadulp.Entidades.Materia;
+import Utils.internalQuery;
 
 /**
  *
@@ -145,20 +146,20 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonBuscarMouseClicked
-      
+      borrarFilas();
     int dni = recibirDNIAlumno();        
     Alumno alumno = aluData.buscarAlumnoPorDni(dni);
 
     if (alumno != null) {
-    ArrayList<Inscripcion> inscripciones = inscData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
-    
+    ArrayList<internalQuery> internalQ = inscData.obtenerMateriasPorAlumno(alumno.getIdAlumno());
+   
     try {
-        if (inscripciones != null && !inscripciones.isEmpty()) {
-            for (Inscripcion inscripcion : inscripciones) {
+        if (internalQ != null && !internalQ.isEmpty()) {
+            for (internalQuery iq : internalQ) {
                 modeloTabla.addRow(new Object[]{
-                    inscripcion.getMateria().getIdMateria(),
-                    inscripcion.getMateria().getNombre(),
-                    inscripcion.getNota()
+                    iq.getId(),
+                    iq.getNombre(),
+                    iq.getNota()
                 });
             }
             tablaCargaNotas.setModel(modeloTabla);
@@ -170,6 +171,7 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
     }
 } else {
     JOptionPane.showMessageDialog(null, "No se encontró al alumno con el DNI especificado.");
+        
 }
         
     }//GEN-LAST:event_botonBuscarMouseClicked

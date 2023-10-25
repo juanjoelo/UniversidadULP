@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import universidadulp.Entidades.Alumno;
 import universidadulp.Entidades.Inscripcion;
 import universidadulp.Entidades.Materia;
+import Utils.internalQuery;
 
 /**
  *
@@ -231,30 +232,34 @@ public class InscripcionData {
         return alumnos;
     }
         
-    public List<Materia> obtenerMateriasPorAlumno(int idAlumno){
-        List<Materia>materia = new ArrayList<>();
+    public ArrayList<internalQuery> obtenerMateriasPorAlumno(int idAlumno){
+        ArrayList<internalQuery>internalQ = new ArrayList<>();
         try {
-            String sql = "SELECT idMateria FROM inscripcion WHERE idAlumno=?";
+            String sql = "SELECT DISTINCT INS.idMateria, MAT.nombre, INS.nota  FROM inscripcion INS\n" +
+                         "INNER JOIN materia MAT ON INS.idMateria=MAT.idMateria\n" +
+                         "WHERE INS.idAlumno=? ";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idAlumno);
             ResultSet rs = ps.executeQuery();
-            Materia mt;
-            int id;
+
             while (rs.next()){
-                id =rs.getInt(1);
-                mt=mateData.buscarMateria(id);
-                materia.add(mt);
+                
+                internalQuery iq= new internalQuery(rs.getInt(1), rs.getString(2), rs.getDouble(3));
+                internalQ.add(iq);
+                
                 
             }
+            
              ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, " Error al acceder a la tabla Materia "+ex.getMessage());
         } catch (NullPointerException npe){
             JOptionPane.showMessageDialog(null, "Error: "+npe.getMessage());
         }
-        return materia;
+        return internalQ;
     }
-    
+   
+            
     
     
 }
