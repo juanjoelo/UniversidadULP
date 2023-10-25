@@ -33,6 +33,7 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
         modelo = new DefaultTableModel();
         inicializarCombo();
         armarCabecera();
+        
     }
 
     /**
@@ -129,7 +130,8 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
 
     private void comboMateriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboMateriaItemStateChanged
          limpiar();
-        for (Alumno al:inscData.obtenerAlumnosXMateria(recibirIDMateria())) {
+         if(comboMateria.getSelectedIndex() != -1){
+           for (Alumno al:inscData.obtenerAlumnosXMateria(recibirIDMateria())) {
         
             modelo.addRow(new Object[]{
                 al.getIdAlumno(),
@@ -138,7 +140,9 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
                 al.getNombre()
                 
             });
-            tablaListadoAlumnos.setModel(modelo);
+            tablaListadoAlumnos.setModel(modelo);  
+         }
+        
     }
     
     }//GEN-LAST:event_comboMateriaItemStateChanged
@@ -148,6 +152,7 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
         for(Materia mat:listaMaterias){
             comboMateria.addItem(mat.getNombre()+ " ID:" + mat.getIdMateria());
         } 
+        comboMateria.setSelectedIndex(-1);
     }
     
      private int recibirIDMateria(){
