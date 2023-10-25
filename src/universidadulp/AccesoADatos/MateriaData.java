@@ -125,12 +125,11 @@ public class MateriaData {
             while (rs.next()) {                
                 Materia materia = new Materia();
                 materia.setIdMateria(rs.getInt("idMateria"));
-                materia.setNombre("nombre");
+                materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("año"));
                 materias.add(materia);
                 
             }
-            JOptionPane.showMessageDialog(null, materias);
             ps.close();
             
         } catch (SQLException ex) {

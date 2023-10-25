@@ -5,17 +5,34 @@
  */
 package universidadulp.vistas;
 
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import universidadulp.AccesoADatos.AlumnoData;
+import universidadulp.AccesoADatos.InscripcionData;
+import universidadulp.AccesoADatos.MateriaData;
+import universidadulp.Entidades.Alumno;
+import universidadulp.Entidades.Materia;
+
 /**
  *
  * @author juan_
  */
 public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
-
+    MateriaData mateData;
+    AlumnoData aluData;
+    InscripcionData inscData;
+    DefaultTableModel modelo;
     /**
      * Creates new form ListadoAlumnosPorMateria
      */
     public ListadoAlumnosPorMateria() {
         initComponents();
+        mateData = new MateriaData();
+        aluData = new AlumnoData();
+        inscData = new InscripcionData();
+        modelo = new DefaultTableModel();
+        inicializarCombo();
+        armarCabecera();
     }
 
     /**
@@ -38,7 +55,11 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione una materia:");
 
-        comboMateria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboMateria.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboMateriaItemStateChanged(evt);
+            }
+        });
 
         tablaListadoAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -106,6 +127,47 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void comboMateriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboMateriaItemStateChanged
+         limpiar();
+        for (Alumno al:inscData.obtenerAlumnosXMateria(recibirIDMateria())) {
+        
+            modelo.addRow(new Object[]{
+                al.getIdAlumno(),
+                al.getDni(),
+                al.getApellido(),
+                al.getNombre()
+                
+            });
+            tablaListadoAlumnos.setModel(modelo);
+    }
+    
+    }//GEN-LAST:event_comboMateriaItemStateChanged
+
+    private void inicializarCombo(){
+        List<Materia> listaMaterias = mateData.listarMaterias();
+        for(Materia mat:listaMaterias){
+            comboMateria.addItem(mat.getNombre()+ " ID:" + mat.getIdMateria());
+        } 
+    }
+    
+     private int recibirIDMateria(){
+        String materia = comboMateria.getSelectedItem().toString();
+        int id = Integer.parseInt(materia.substring(materia.lastIndexOf(":") + 1)); 
+        return id;
+    }
+     
+     private void armarCabecera(){
+         modelo.addColumn("ID");
+         modelo.addColumn("DNI");
+         modelo.addColumn("Apellido");
+         modelo.addColumn("Nombre");
+         tablaListadoAlumnos.setModel(modelo);
+     }
+     
+     private void limpiar(){
+         modelo.setRowCount(0);
+         tablaListadoAlumnos.setModel(modelo);
+     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonSalir;
