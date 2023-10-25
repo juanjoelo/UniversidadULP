@@ -139,16 +139,16 @@ public class InscripcionData {
     }
     
     public List<Materia> obtenerMateriasNOCursadas(int id){
-        System.out.println("Test inicial");
          try{
             String sql = "SELECT * FROM materia WHERE materia.idMateria NOT IN "
                     + "(SELECT inscripcion.idMateria "
-                    + "FROM inscripcion WHERE inscripcion.idAlumno = ?)";
+                    + "FROM inscripcion WHERE inscripcion.idAlumno = ?) AND estado = 1";
+            
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             List<Materia> materias = new ArrayList<>();
-            System.out.println("Test medio");
+            
             while (rs.next()) {
                 Materia mat = new Materia();
 
@@ -156,8 +156,7 @@ public class InscripcionData {
                 mat.setNombre(rs.getString("nombre"));
                 //TODO: Revisar si coinciden estos valores con la BD.(HECHO)
                 mat.setAnioMateria(rs.getInt("año"));
-                materias.add(mat);
-              System.out.println("Test Fondo");  
+                materias.add(mat);  
             }
             ps.close();
             return materias;
