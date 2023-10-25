@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package universidadulp.vistas;
-
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -16,6 +16,9 @@ import universidadulp.Entidades.Alumno;
 import universidadulp.Entidades.Inscripcion;
 import universidadulp.Entidades.Materia;
 import Utils.internalQuery;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +30,8 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
     private MateriaData mateData;
     private InscripcionData inscData;
     private DefaultTableModel modeloTabla;
-        
+    private static Connection connection;   
+    
        
 
     
@@ -41,6 +45,7 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
             inscData = new InscripcionData();
             armarModelo();
             inicializarCombo();
+            tablaCargaNotas.getTableHeader().setReorderingAllowed(false);
     }
 
     /**
@@ -65,6 +70,13 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Seleccione un alumno:");
 
+        tablaCargaNotas = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int column){
+
+                return column >= 2;
+            }
+
+        };
         tablaCargaNotas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -77,7 +89,7 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -87,8 +99,18 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tablaCargaNotas);
 
         botonGuardar.setText("Guardar");
+        botonGuardar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonGuardarMouseClicked(evt);
+            }
+        });
 
         botonSalir.setText("Salir");
+        botonSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                botonSalirMouseClicked(evt);
+            }
+        });
 
         botonBuscar.setText("Buscar");
         botonBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,7 +126,7 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 17, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(botonGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(104, 104, 104)
                         .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -149,7 +171,7 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
       borrarFilas();
     int dni = recibirDNIAlumno();        
     Alumno alumno = aluData.buscarAlumnoPorDni(dni);
-
+    
     if (alumno != null) {
     ArrayList<internalQuery> internalQ = inscData.obtenerMateriasPorAlumno(alumno.getIdAlumno());
    
@@ -160,12 +182,15 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
                     iq.getId(),
                     iq.getNombre(),
                     iq.getNota()
-                });
+                   });
             }
             tablaCargaNotas.setModel(modeloTabla);
         } else {
             JOptionPane.showMessageDialog(null, "No se encontraron inscripciones para este alumno.");
         }
+                
+                
+                //Aqui quiero tomar la celda editada de la columna "Nota" y utilizar el método "actualizarNota".
     } catch (NullPointerException e) {
         JOptionPane.showMessageDialog(null, "Null pointer");
     }
@@ -175,8 +200,37 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
 }
         
     }//GEN-LAST:event_botonBuscarMouseClicked
+
+    private void botonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonSalirMouseClicked
+        // TODO add your handling code here:
+         dispose();
+    }//GEN-LAST:event_botonSalirMouseClicked
+
+    private void botonGuardarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonGuardarMouseClicked
+        // TODO add your handling code here:
+        try {
+            int dni = recibirDNIAlumno();        
+                Alumno alumno = aluData.buscarAlumnoPorDni(dni);
+                int row = tablaCargaNotas.getSelectedRow();
+                int col = 2;
+                int mat = 0;
+                double nota =Double.parseDouble(((tablaCargaNotas.getModel().getValueAt(row, col)).toString()));
+                int idmat = Integer.parseInt(tablaCargaNotas.getModel().getValueAt(row, mat).toString());
+                int idAlumno = alumno.getIdAlumno();
+                inscData.actualizarNota(idAlumno, idmat, nota);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Number format Exception.");
+        }
+        catch(NullPointerException e)
+        {
+            JOptionPane.showMessageDialog(null, "Null Pointer Exception.");
+        }
+                
+      
+    }//GEN-LAST:event_botonGuardarMouseClicked
     private void armarModelo(){
         modeloTabla = new DefaultTableModel();
+        
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Nombre");
         modeloTabla.addColumn("Nota");
