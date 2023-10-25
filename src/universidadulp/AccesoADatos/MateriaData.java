@@ -86,6 +86,7 @@ public class MateriaData {
             ps = con.prepareStatement(sql);
             ps.setString(1, mat.getNombre());
             ps.setInt(2, mat.getAnioMateria());
+            ps.setInt(3, mat.getIdMateria());
             int exito = ps.executeUpdate();
             if (exito == 1) {
                 JOptionPane.showMessageDialog(null, "Modificado Exitosamente.");

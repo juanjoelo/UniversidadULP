@@ -15,13 +15,14 @@ import universidadulp.Entidades.Materia;
  */
 public class MateriaView extends javax.swing.JInternalFrame {
     private MateriaData matData=new MateriaData();
-    private Materia materiaActual=null;
+    private Materia materiaActual;
 
     /**
      * Creates new form Materia
      */
     public MateriaView() {
         initComponents();
+        materiaActual = new Materia();
     }
 
     /**
@@ -196,8 +197,7 @@ public class MateriaView extends javax.swing.JInternalFrame {
         jtNombre.setText("");
         jtAño.setText("");
         jbEstado.setSelected(false);
-        
-        materiaActual=new Materia();
+        materiaActual = null;
     }//GEN-LAST:event_jbNuevoActionPerformed
 
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
