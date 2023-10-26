@@ -84,6 +84,11 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tablaListadoAlumnos);
 
         botonSalir.setText("Salir");
+        botonSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,10 +124,10 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
                     .addComponent(jLabel2)
                     .addComponent(comboMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(44, 44, 44)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonSalir)
-                .addGap(0, 17, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -146,6 +151,10 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
     }
     
     }//GEN-LAST:event_comboMateriaItemStateChanged
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
 
     private void inicializarCombo(){
         List<Materia> listaMaterias = mateData.listarMaterias();
