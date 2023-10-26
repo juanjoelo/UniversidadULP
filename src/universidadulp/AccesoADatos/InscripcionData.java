@@ -211,15 +211,27 @@ public class InscripcionData {
     public List<Alumno> obtenerAlumnosXMateria(int idMateria){
         List<Alumno>alumnos = new ArrayList<>();
         try {
-            String sql = "SELECT idAlumno FROM inscripcion WHERE idMateria=? ";
+            String sql = "SELECT alumno.* FROM inscripcion JOIN alumno ON"
+                    + "(inscripcion.idAlumno = alumno.idAlumno) WHERE idMateria=?; ";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, idMateria);
             ResultSet rs = ps.executeQuery();
             Alumno al;
             int id;
+            String apellido;
+            String nombre;
+            java.sql.Date fecha;
+            int dni;
+            boolean estado;
             while (rs.next()) {
-                id = rs.getInt(1);
-                al=aluData.buscarAlumno(id);
+                id = rs.getInt("idAlumno");
+                apellido = rs.getString("apellido");
+                nombre = rs.getString("nombre");
+                fecha = rs.getDate("fechaNacimiento"); // Para el proyecto final hay que utilizar .toLocalDate y usar LocalDate en las clases de entidad.
+                dni = rs.getInt("dni");
+                estado = rs.getBoolean("estado");
+                
+                al = new Alumno(id,dni,apellido,nombre,fecha,estado);
                 alumnos.add(al);
             }
             ps.close();

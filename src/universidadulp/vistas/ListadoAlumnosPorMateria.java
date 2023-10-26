@@ -61,6 +61,16 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
                 comboMateriaItemStateChanged(evt);
             }
         });
+        comboMateria.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboMateriaMouseClicked(evt);
+            }
+        });
+        comboMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMateriaActionPerformed(evt);
+            }
+        });
 
         tablaListadoAlumnos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -134,9 +144,23 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboMateriaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboMateriaItemStateChanged
-         limpiar();
-         if(comboMateria.getSelectedIndex() != -1){
-           for (Alumno al:inscData.obtenerAlumnosXMateria(recibirIDMateria())) {
+     
+    }//GEN-LAST:event_comboMateriaItemStateChanged
+
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_botonSalirActionPerformed
+
+    private void comboMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMateriaActionPerformed
+    
+    }//GEN-LAST:event_comboMateriaActionPerformed
+
+    private void comboMateriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboMateriaMouseClicked
+        limpiar();
+         List<Alumno> alumnos = inscData.obtenerAlumnosXMateria(recibirIDMateria());
+         System.out.println(alumnos);
+         if(alumnos.size()>0){
+           for (Alumno al:alumnos) {
         
             modelo.addRow(new Object[]{
                 al.getIdAlumno(),
@@ -150,18 +174,14 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
         
     }
     
-    }//GEN-LAST:event_comboMateriaItemStateChanged
-
-    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
-        dispose();
-    }//GEN-LAST:event_botonSalirActionPerformed
+    }//GEN-LAST:event_comboMateriaMouseClicked
 
     private void inicializarCombo(){
         List<Materia> listaMaterias = mateData.listarMaterias();
         for(Materia mat:listaMaterias){
             comboMateria.addItem(mat.getNombre()+ " ID:" + mat.getIdMateria());
         } 
-        comboMateria.setSelectedIndex(-1);
+        comboMateria.setSelectedIndex(0);
     }
     
      private int recibirIDMateria(){
