@@ -246,7 +246,7 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         try {
             String texto = textoDocumento.getText();
        int num = Integer.parseInt(texto);
-       Alumno alumno1 = al.buscarAlumnoPorDni(num);
+       Alumno alumno1 = al.buscarAlumnoPorDniGeneral(num);
         botonEliminar.setEnabled(true);
          botonModificar.setEnabled(true);
         JOptionPane.showMessageDialog(null, alumno1.toString());
@@ -318,6 +318,8 @@ public class AlumnoView extends javax.swing.JInternalFrame {
         botonRadioEstado.setEnabled(true);
         botonSeleccionFecha.setEnabled(true);
         botonGuardar.setEnabled(true);
+        limpiar();
+        botonModificar.setEnabled(false);
     }//GEN-LAST:event_botonNuevoMouseClicked
 
     private void botonSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_botonSalirMouseClicked

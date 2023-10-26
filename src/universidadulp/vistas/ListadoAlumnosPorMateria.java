@@ -152,11 +152,7 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_botonSalirActionPerformed
 
     private void comboMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMateriaActionPerformed
-    
-    }//GEN-LAST:event_comboMateriaActionPerformed
-
-    private void comboMateriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboMateriaMouseClicked
-        limpiar();
+    limpiar();
          List<Alumno> alumnos = inscData.obtenerAlumnosXMateria(recibirIDMateria());
          System.out.println(alumnos);
          if(alumnos.size()>0){
@@ -173,6 +169,10 @@ public class ListadoAlumnosPorMateria extends javax.swing.JInternalFrame {
          }
         
     }
+    }//GEN-LAST:event_comboMateriaActionPerformed
+
+    private void comboMateriaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboMateriaMouseClicked
+        
     
     }//GEN-LAST:event_comboMateriaMouseClicked
 

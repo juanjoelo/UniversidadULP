@@ -211,13 +211,17 @@ public class CargaDeNotas extends javax.swing.JInternalFrame {
         try {
             int dni = recibirDNIAlumno();        
                 Alumno alumno = aluData.buscarAlumnoPorDni(dni);
-                int row = tablaCargaNotas.getSelectedRow();
+                
+                int row = tablaCargaNotas.getRowCount();
+                for(int i = 0; i < row; i++){
                 int col = 2;
                 int mat = 0;
-                double nota =Double.parseDouble(((tablaCargaNotas.getModel().getValueAt(row, col)).toString()));
-                int idmat = Integer.parseInt(tablaCargaNotas.getModel().getValueAt(row, mat).toString());
+                double nota =Double.parseDouble(((tablaCargaNotas.getModel().getValueAt(i, col)).toString()));
+                int idmat = Integer.parseInt(tablaCargaNotas.getModel().getValueAt(i, mat).toString());
                 int idAlumno = alumno.getIdAlumno();
                 inscData.actualizarNota(idAlumno, idmat, nota);
+                }
+                
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Number format Exception.");
         }

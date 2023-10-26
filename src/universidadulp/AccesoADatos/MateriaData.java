@@ -68,7 +68,7 @@ public class MateriaData {
      
             }
             else{
-                JOptionPane.showConfirmDialog(null, "No existe la materia");
+                JOptionPane.showMessageDialog(null, "No existe la materia");
             }
             
             ps.close();  
@@ -138,6 +138,40 @@ public class MateriaData {
         return materias;
     }
     
+    public Materia buscarMateriasGeneral(int id){
+        Materia materia = null;
+        
+        String sql="SELECT * FROM materia WHERE idMateria = ?";
+        PreparedStatement ps = null;
+        
+        try{
+        ps=con.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        
+            if (rs.next()) {
+                materia=new Materia();
+                materia.setIdMateria(id);
+                materia.setNombre(rs.getString("nombre"));
+                materia.setAnioMateria(rs.getInt("año"));
+                materia.setActivo(rs.getBoolean("estado"));
+                if (!materia.isActivo()) {
+                    JOptionPane.showMessageDialog(null, "Atencion, esta materia está dada de baja.");
+                }
+                
+
+     
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "No existe la materia");
+            }
+            
+            ps.close();  
+        } catch (SQLException ex) {
+   JOptionPane.showMessageDialog(null, "Error al acceder a la tabla Alumno "+ex.getMessage()); 
+   }
+        return materia;
+    }
     
     
     

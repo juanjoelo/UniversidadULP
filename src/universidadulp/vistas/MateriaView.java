@@ -171,7 +171,7 @@ public class MateriaView extends javax.swing.JInternalFrame {
         // Parseo a Int el codigo
         Integer codigo=Integer.parseInt(jtCodigo.getText());
         if (codigo!=null) {
-            Materia materia = matData.buscarMateria(codigo);
+            Materia materia = matData.buscarMateriasGeneral(codigo);
             
             if (materia!=null) {
                 //si tengo la materia me rellena los campos
@@ -180,9 +180,7 @@ public class MateriaView extends javax.swing.JInternalFrame {
                 jbEstado.setSelected(materia.isActivo());
                     
                 materiaActual=materia;
-                } else{
-                JOptionPane.showMessageDialog(this, "Materia no encontrada");
-            }
+                } 
         }
         }catch (NumberFormatException ex) {
         JOptionPane.showMessageDialog(this, "El código de materia debe ser un número válido.");
@@ -227,14 +225,11 @@ public class MateriaView extends javax.swing.JInternalFrame {
         if (materiaActual == null) { //este if para comprobar que se creando una materia nueva
         Materia nuevaMateria = new Materia(nombre, anio, activo);
         matData.guardarMateria(nuevaMateria);
-    
-        JOptionPane.showMessageDialog(this, "Materia creada.");
         }else{
             materiaActual.setNombre(nombre);
             materiaActual.setAnioMateria(anio);
             materiaActual.setActivo(activo);
             matData.modificarMateria(materiaActual);
-            JOptionPane.showMessageDialog(this, "Materia actualizada.");
         }
             jtCodigo.setText("");
             jtNombre.setText("");

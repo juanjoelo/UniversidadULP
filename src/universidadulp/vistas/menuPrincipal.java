@@ -18,6 +18,9 @@ public class menuPrincipal extends javax.swing.JFrame {
      */
     public menuPrincipal() {
         initComponents();
+        int x = (int) (750/2);
+        int y = (int) (350 / 2);
+        this.setLocation(x, y);
     }
 
     /**
@@ -32,6 +35,7 @@ public class menuPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         escritorio = new javax.swing.JDesktopPane();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAlumno = new javax.swing.JMenu();
         formularioAlumno = new javax.swing.JMenuItem();
@@ -49,15 +53,19 @@ public class menuPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/fondo lab 4_1.png"))); // NOI18N
+
+        escritorio.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1093, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1093, Short.MAX_VALUE)
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
         );
 
         menuAlumno.setText("Alumno");
@@ -173,7 +181,7 @@ public class menuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_listAlumnosxMateriaActionPerformed
 
     private void limpiar(){
-        escritorio.removeAll();
+//        escritorio.removeAll();
         escritorio.repaint();
     }
     /**
@@ -216,6 +224,7 @@ public class menuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem formInscripcion;
     private javax.swing.JMenuItem formMateria;
     private javax.swing.JMenuItem formularioAlumno;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
